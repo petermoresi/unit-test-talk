@@ -32,8 +32,6 @@
   </style>
 #+END_HTML
 
-The purpose of unit tests is to verify behavior of functions.
-
 * Benefits of Unit Testing
 
   1. *Consistent high quality* software releases
