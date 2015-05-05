@@ -1,0 +1,557 @@
+#+TITLE: Unit Test Talk Notes
+#+AUTHOR: Peter Moresi
+#+OPTIONS: ^:nil num:nil
+
+#+INFOJS_OPT: path:org-info.js
+#+INFOJS_OPT: toc:nil ltoc:t view:info mouse:underline buttons:nil
+#+INFOJS_OPT: up:
+
+#+BEGIN_HTML
+  <style>
+  body {
+      font-family: sans-serif;
+  }
+  h2 {
+      font-size: 45px;
+  }
+  h3 {
+      font-size: 40px;
+  }
+  h4 {
+        font-size: 36px;
+  }
+  li {
+      font-size: 25px;
+      padding-bottom: 10px;
+  }
+
+  li div {
+      font-size: 16px;
+      padding-bottom: 0px;
+  }
+  </style>
+#+END_HTML
+
+The purpose of unit tests is to verify behavior of functions.
+
+* Benefits of Unit Testing
+
+  1. *Consistent high quality* software releases
+
+  2. More *predictable outcomes* refactoring
+
+  3. Demonstrate *developer productivity*
+
+  4. Enhanced *customer confidence* in product or service
+
+* Developers role in testing
+
+  1) Developers _should_ know how to write tests.
+
+  2) Developers that write tests are more valuable to the company.
+     
+  3) Developers should not write tests first or practice TDD.
+
+  4) Writing tests is *_always beneficial_* to the project.
+
+  5) Write new tests for *every iteration*; except refactoring.
+
+     1) Refactoring should not change behavior; only improve organization, performance, ect..
+
+	1) If you break tests refactoring then fix them before you merge.
+
+* How to test like a Developer
+
+  1. Axiom: Ever action performed by a computer can be tested.
+
+     1. *Not* every action performed by a computer *should* be tested.
+
+     2. Testing in isolation is useful. Testing end-to-end is useful too.
+
+     3. _100% test automatation_ is impractical and 100% code coverage is not the same thing.
+
+  2. Write tests until _you and your stakeholders feel confident shipping_.
+
+  3. Some things are so hard that automating them is less efficient then manual testing.
+     
+     1. Testing CSS/DOM behavior on multiple browsers and devices.
+
+  4. Automated testing will never completely replace manual testing.
+
+     1. All developer test their own code...some better than others.
+
+     2. Writing unit tests makes the job easier, but not always more fun.
+
+* Why use a Test Framework
+
+  1. *Because they make better test reports.*
+  3. They never forget to a run a test.
+  4. They are widely available on every major platform.
+  5. They guide you into common test patterns (setup, execute, teardown).
+  6. They help with advanced cases like testing database changes.
+  
+* Get started with unit testing
+  
+  - Testing a *single function* is the first step.
+    
+  - Today's example will test a guarded "Say Hello" function in Ruby
+    
+** Ruby
+*** Say Hello in Ruby
+
+    #+NAME: say_hello
+    #+BEGIN_SRC ruby :tangle say_hello.rb
+      def say_hello(name)
+        if not name.is_a? String
+          raise ArgumentError, "This is not a string. It is a #{name.class}."
+        end
+
+        "Hello, #{name}"
+      end
+    #+END_SRC
+*** Simplest possible test case
+    
+    This test ensures correct syntax and basic behavior.
+    
+    #+BEGIN_SRC ruby
+      require "./say_hello.rb"
+      say_hello "World"
+    #+END_SRC
+    
+*** Remember to test exception cases too
+    
+    #+BEGIN_SRC ruby :results output
+      require './say_hello.rb'
+      puts say_hello("World")
+
+      begin
+        say_hello({ Name: "Peter" })
+      rescue Exception => e
+        puts "raises exception: #{e}"
+      end
+    #+END_SRC
+    
+*** Measure code coverage
+
+    This test covers 100% of the code paths. This means that every line of code
+    is executed by running the test code. There are tools to automate the collection
+    of this metric.
+
+    #+BEGIN_SRC ruby :results output
+      require "coverage.so"
+
+      Coverage.start
+      require "./say_hello.rb"
+
+      say_hello("World")
+
+      begin
+       	say_hello({ Name: "Peter" })
+      rescue Exception => e
+       	puts "raises exception: #{e}"
+      end
+
+      puts Coverage.result 
+     #+END_SRC
+
+     #+RESULTS:
+     : raises exception: This is not a string. It is a Hash.
+     : {"/Users/jenmoresi/src/how-to-test-like-software-engineer/say_hello.rb"=>[1, 2, 1, nil, nil, 1, nil]}
+
+*** Minitest framework
+    
+    Author test for the  minitest framework.
+    
+    #+BEGIN_SRC ruby :tangle say_hello_unit_test.rb 
+       # Run with command: ruby -Ilib:test say_hello_unit_test.rb
+       require 'minitest/autorun'
+       require './say_hello.rb'
+
+       class TestSayHello < MiniTest::Unit::TestCase
+
+         def test_hello_peter
+           assert_equal say_hello("World"), "Hello, World"
+         end
+
+         def test_that_hash_is_guarded
+           assert_raises ArgumentError do
+             say_hello({ Name: "Peter" })
+           end
+         end
+
+         def test_that_number_is_guarded
+           assert_raises ArgumentError do
+             say_hello(3)
+           end
+         end
+
+         def test_that_date_is_guarded
+           assert_raises ArgumentError do
+             say_hello(Time.now)
+           end
+         end
+       end
+    #+END_SRC
+    
+*** RSpec framework
+    
+    Author tests uses a BDD style with the RSpec framework.
+
+       #+BEGIN_SRC ruby :tangle say_hello_rspec_test.rb
+         # Run with command:  rspec say_hello_rspec_test.rb -c
+         require './say_hello.rb'
+
+         describe "say_hello" do
+
+           it "should accept a String" do
+            expect(say_hello("World")).to eq("Hello, World")
+           end
+
+           it "should raise ArgumentError on Hash" do
+             expect { say_hello({ Name: "Peter" }) }.to raise_error(ArgumentError)
+           end
+
+           it "should raise ArgumentError on int" do
+             expect { say_hello(3) }.to raise_error(ArgumentError)
+           end
+
+           it "should raise ArgumentError on Time" do
+             expect { say_hello(Time.now) }.to raise_error(ArgumentError)
+           end
+
+         end
+     #+END_SRC
+
+*** Cucumber
+
+    Purpose is to describe software behavior with a programming language neutral DSL.
+
+     1. Feature definition
+
+       	#+BEGIN_SRC feature :tangle features/say_hello.feature
+          Feature: Say Hello
+            As a programmer
+            I want a function that takes a name and concatenates with "Hello, ".
+            So that I can demonstrate test techniques during the talk.
+
+            Scenario: Pass string as name
+              Given your name is "World"
+              When I say hello
+              Then the result is "Hello, World"
+
+            Scenario: Evil programmer passes number
+              Given your name is 2
+              When I say hello
+              Then the result is ArgumentException
+
+            Scenario: Evil programmer passes object
+              Given your name is User Hash
+              When I say hello
+              Then the result is ArgumentException
+       	#+END_SRC
+
+     2. Step Definitions
+
+       	Purpose is to make sentences to code operations.
+
+       	#+BEGIN_SRC ruby :tangle features/step_definitions/say_hello_steps.rb
+          require './say_hello.rb'
+
+          Given(/^your name is "([^"]*)"$/) do |name|
+            @name = name
+          end
+
+          Given(/^your name is (\d+)$/) do |name|
+            @name = name.to_i
+          end
+
+
+          Given(/^your name is User Hash/) do
+            @name = { name: "Mehrdad" }
+          end
+
+          When "I say hello" do
+            begin
+              @result = say_hello @name
+            rescue Exception => e
+              @result = e
+            end
+          end
+
+          Then /the result is "([^"]*)"$/ do |result|
+            expect(result).to eq(@result)
+          end
+
+          Then(/^the result is ArgumentException$/) do
+            expect(@result.is_a? ArgumentError).to eq(true)
+          end
+
+       	#+END_SRC
+
+     3. Run tests on terminal
+
+       	#+BEGIN_SRC sh
+	  cucumber
+       	#+END_SRC
+
+** JavaScript
+*** Say Hello in JavaScript
+    #+NAME: say_hello_js
+    #+BEGIN_SRC js :tangle say_hello.js
+    function say_hello(name) {
+       	if (typeof name !== "string") {
+	    throw "This is not a string. It is a " + name.constructor.name + ".";
+       	}
+
+       	return "Hello, " + name;
+    }
+    #+END_SRC
+*** Simplest possible test case
+  #+BEGIN_SRC js :noweb yes :results output
+    <<say_hello_js>>
+    console.log( say_hello("World") );   
+  #+END_SRC
+*** QUnit framework
+**** Test Page
+     #+BEGIN_SRC html :tangle qunit-test-page.html
+       <!DOCTYPE html>
+       <html>
+         <head>
+           <meta charset="utf-8">
+           <title>QUnit Example</title>
+           <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.18.0.css">
+         </head>
+         <body>
+           <div id="qunit"></div>
+           <div id="qunit-fixture"></div>
+           <script src="http://code.jquery.com/qunit/qunit-1.18.0.js"></script>
+           <script src="say_hello.js"></script>
+           <script src="say_hello_qunit_tests.js"></script>
+         </body>
+       </html>
+    #+END_SRC
+**** Test Script
+     #+BEGIN_SRC js :tangle say_hello_qunit_tests.js
+       QUnit.test( "hello world", function( assert ) {
+           assert.ok( say_hello("World") == "Hello, World", "Passed!", "Epic Failure!" );
+       });
+
+       QUnit.test( "number is guarded", function( assert ) {
+           assert.throws(
+               function() {
+                   say_hello(3)
+               },
+               "This is not a string. It is a Number"
+         );
+       });
+
+       QUnit.test( "object is guarded", function( assert ) {
+           assert.throws(
+               function() {
+                   say_hello({ name: "World" })
+               },
+               "This is not a string. It is a Object"
+         );
+       });
+
+       QUnit.test( "date is guarded", function( assert ) {
+           assert.throws(
+               function() {
+                   say_hello(new Date())
+               },
+               "This is not a string. It is a Date"
+         );
+       });
+     #+END_SRC
+*** Jasmine framework
+**** Test Page
+     #+BEGIN_SRC html :tangle jasmine-test-page.html
+       <!DOCTYPE html>
+       <html>
+         <head>
+           <meta charset="utf-8">
+           <title>Jasmine Example</title>
+           <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.18.0.css">
+         </head>
+         <body>
+           <div id="qunit"></div>
+           <div id="qunit-fixture"></div>
+           <link rel="shortcut icon" type="image/png" href="jasmine/images/jasmine_favicon.png">
+           <link rel="stylesheet" type="text/css" href="jasmine/lib/jasmine-core/jasmine.css">
+
+           <script type="text/javascript" src="jasmine/lib/jasmine-core/jasmine.js"></script>
+           <script type="text/javascript" src="jasmine/lib/jasmine-core/jasmine-html.js"></script>
+           <script type="text/javascript" src="jasmine/lib/jasmine-core/boot.js"></script>
+           <script src="say_hello.js"></script>
+           <script src="say_hello_jasmine_tests.js"></script>
+         </body>
+       </html>
+     #+END_SRC
+**** Test Script
+     #+BEGIN_SRC js :tangle say_hello_jasmine_tests.js
+       describe("say_hello", function() {
+           it( "should return 'Hello, World'", function() {
+               expect( say_hello("World") ).toBe("Hello, World");
+           });
+
+           it( "should raise error on number", function() {
+               expect( function() { say_hello(2) } ).toThrow("This is not a string. It is a Number.");
+           });
+
+           it( "should raise error on hash", function() {
+               expect( function() { say_hello({ name: "World" }) } ).toThrow("This is not a string. It is a Object.");
+           });
+
+           it( "should raise error on date", function() {
+               expect( function() { say_hello(new Date()) } ).toThrow("This is not a string. It is a Date.");
+           });
+
+       });
+     #+END_SRC
+*** Cucumber step definitions
+  #+BEGIN_SRC js
+    require("./say_hello");
+
+    var myStepDefinitionsWrapper = function () {
+       	var name;
+
+       	this.Given(/^your name is "([^"]*)"$/, function (arg1, callback) {
+	    name = arg1;
+       	});
+
+       	this.When(/^I say hello$/, function (callback) {
+	    say_hello("name");
+       	});
+
+       	this.Then(/^the result is "([^"]*)"$/, function (arg1, callback) {
+	    
+       	});
+
+       	this.Given(/^your name is (\d+)$/, function (arg1, callback) {
+	    // Write code here that turns the phrase above into concrete actions
+	    callback.pending();
+       	});
+
+       	this.Then(/^the result is ArgumentException$/, function (callback) {
+	    // Write code here that turns the phrase above into concrete actions
+	    callback.pending();
+       	});
+
+       	this.Given(/^your name is User Hash\.$/, function (callback) {
+	    // Write code here that turns the phrase above into concrete actions
+	    callback.pending();
+       	});
+
+    }
+
+    module.exports = myStepDefinitionsWrapper;
+
+  #+END_SRC
+
+** Clojure
+*** Say Hello in Clojure
+   #+NAME: say_hello_clj
+   #+BEGIN_SRC clojure :tangle say_hello.clj
+     (defn say_hello [name] 
+      (if (string? name) 
+        (apply str (concat "Hello, " name)) 
+        (throw (Exception. 
+                (apply str (concat "This is not a string. It is a " (type name)))))))
+   #+END_SRC
+*** Simplest possible test case
+   #+BEGIN_SRC clojure
+     (load-file "say_hello.clj")
+     (say_hello "World")
+   #+END_SRC
+*** clojure.test framework
+
+   #+BEGIN_SRC clojure
+     (use 'clojure.test)
+
+     (load-file "say_hello.clj")
+
+     (deftest hello-world-test
+       (testing "returns Hello, World"
+         (is (= "Hello, World" (say_hello "World"))))))
+
+     (run-tests)
+   #+END_SRC
+
+** CSharp
+*** Say Hello in CSharp
+    #+NAME: say_hello_csharp
+    #+BEGIN_SRC csharp
+      using System;
+
+      namespace HelloCSharp
+      {
+          class Friendly {
+              public static string say_hello( object name ){
+                  if (name is String) {
+                      return "Hello, " + name;
+                  }
+
+                  throw new ArgumentError("This is not a string. It is a " + typeof(name));
+              }
+          }
+      }
+
+    #+END_SRC
+*** Simplest possible test
+    #+BEGIN_SRC csharp :noweb yes
+      using System;
+      using System.Diagnostics;
+
+      namespace HelloCSharp
+      {
+              class MainClass
+              {
+                      public static void Main (string[] args)
+                      {
+                              Debug.Assert("Hello, World" == Friendly.say_hello("World"), "Should return \"Hello, World\"" );
+                              Console.WriteLine ("All Tests Pass");
+                      }
+              }
+      }
+    #+END_SRC
+*** Test with NUnit Framework
+    #+BEGIN_SRC csharp
+      using NUnit.Framework;
+      using System;
+      using HelloFriendly;
+
+      namespace TestFriendly
+      {
+              [TestFixture ()]
+              public class Test
+              {
+                      [Test ()]
+                      public void ShouldReturnHelloWorld ()
+                      {
+                              Assert.AreEqual ("Hello, World", Friendly.say_hello ("World"), "Should be Hello, World");
+                      }
+
+                      [Test ()]
+                      public void ShouldRaiseErrorOnNumber()
+                      {
+                              var ex = Assert.Throws<ArgumentException>( () =>
+                                              Friendly.say_hello (3)
+                              );
+
+                              Assert.AreEqual (ex.Message, "This is not a string. It is a Int32");
+                      }
+
+                      [Test ()]
+                      public void ShouldRaiseErrorOnHash()
+                      {
+                              var hello = new System.Collections.Hashtable();
+                              var ex = Assert.Throws<ArgumentException>( () =>
+                                      Friendly.say_hello (hello)
+                              );
+
+                              Assert.AreEqual (ex.Message, "This is not a string. It is a Hashtable");
+                      }
+              }
+      }
+    #+END_SRC
+
