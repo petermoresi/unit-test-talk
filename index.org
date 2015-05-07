@@ -484,7 +484,9 @@
       namespace HelloCSharp
       {
           class Friendly {
-              public static string say_hello( object name ){
+              // EXAMPLE ONLY: DON'T DO THIS
+          // Real C# programs should not use "object" as argument type!
+              public static string say_hello( object name ){ 
                   if (name is String) {
                       return "Hello, " + name;
                   }
@@ -496,7 +498,7 @@
 
     #+END_SRC
 *** Simplest possible test
-    #+BEGIN_SRC csharp :noweb yes
+    #+BEGIN_SRC csharp
       using System;
       using System.Diagnostics;
 
@@ -513,6 +515,7 @@
       }
     #+END_SRC
 *** Test with NUnit Framework
+
     #+BEGIN_SRC csharp
       using NUnit.Framework;
       using System;
@@ -551,5 +554,60 @@
                       }
               }
       }
+    #+END_SRC
+
+** Java
+*** Say Hello in Java
+    #+BEGIN_SRC java :tangle Friendly.java
+      class Friendly {
+          // EXAMPLE ONLY: DON'T DO THIS
+          // Real Java programs should not use "object" as argument type!
+          public static String say_hello(Object name) {
+              if (name instanceof String) {
+                  return "Hello, " + name;
+              }
+
+              throw new IllegalArgumentException("This is not a string. It is a " + name.getClass());
+          }
+      }
+    #+END_SRC
+*** Simplest possible test
+    #+BEGIN_SRC java :tangle FriendlyTest.java
+      class FriendlyTest
+      {
+          public static void main(String[] args)
+          {
+              String result = Friendly.say_hello("World");
+              assert "Hello, World" == Friendly.say_hello("World");
+              System.out.println(result);
+          }
+      }
+    #+END_SRC
+*** Test with JUnit
+
+    #+BEGIN_SRC js :tangle FriendlyJUnitTest.java
+      import org.junit.Test;
+
+      import org.junit.Assert;
+
+
+      public class FriendlyJUnitTest {
+
+          @Test
+          public void say_hello_works() {
+              Assert.assertEquals( "Hello, World", Friendly.say_hello("World") );
+          }
+
+          @Test(expected=IllegalArgumentException.class)
+          public void say_hello_number_throw_error() {
+              Friendly.say_hello(3);
+          }
+          
+          @Test(expected=IllegalArgumentException.class)
+          public void say_hello_object_throw_error() {
+              Friendly.say_hello(new Object());
+          }
+      }
+
     #+END_SRC
 
