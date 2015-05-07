@@ -5,4 +5,6 @@ function say_hello(name) {
     }
 
     return "Hello, " + name;
-}
+};
+
+if (module) { module.exports = say_hello; }

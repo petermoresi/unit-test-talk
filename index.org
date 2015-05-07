@@ -220,35 +220,39 @@
          end
      #+END_SRC
 
-*** Cucumber
-
+*** Cucumber with Ruby
+    
     Purpose is to describe software behavior with a programming language neutral DSL.
+    
+**** Install
+     #+BEGIN_SRC sh
+       gem install cucumber
+     #+END_SRC
+**** Feature Definition
+     
+     #+BEGIN_SRC feature :tangle features/say_hello.feature
+       Feature: Say Hello
+         As a programmer
+         I want a function that takes a name and concatenates with "Hello, ".
+         So that I can demonstrate test techniques during the talk.
 
-     1. Feature definition
+         Scenario: Pass string as name
+           Given your name is "World"
+           When I say hello
+           Then the result is "Hello, World"
 
-       	#+BEGIN_SRC feature :tangle features/say_hello.feature
-          Feature: Say Hello
-            As a programmer
-            I want a function that takes a name and concatenates with "Hello, ".
-            So that I can demonstrate test techniques during the talk.
+         Scenario: Evil programmer passes number
+           Given your name is 2
+           When I say hello
+           Then the result is ArgumentException
 
-            Scenario: Pass string as name
-              Given your name is "World"
-              When I say hello
-              Then the result is "Hello, World"
-
-            Scenario: Evil programmer passes number
-              Given your name is 2
-              When I say hello
-              Then the result is ArgumentException
-
-            Scenario: Evil programmer passes object
-              Given your name is User Hash
-              When I say hello
-              Then the result is ArgumentException
-       	#+END_SRC
-
-     2. Step Definitions
+         Scenario: Evil programmer passes object
+           Given your name is User Hash
+           When I say hello
+           Then the result is ArgumentException
+     #+END_SRC
+     
+**** Step Definitions
 
        	Purpose is to make sentences to code operations.
 
@@ -265,7 +269,7 @@
 
 
           Given(/^your name is User Hash/) do
-            @name = { name: "Mehrdad" }
+            @name = { name: "MyNameHere" }
           end
 
           When "I say hello" do
@@ -286,33 +290,36 @@
 
        	#+END_SRC
 
-     3. Run tests on terminal
+**** Run tests on terminal
 
        	#+BEGIN_SRC sh
-	  cucumber
+          cucumber -f pretty
        	#+END_SRC
 
 ** JavaScript
 *** Say Hello in JavaScript
+
     #+NAME: say_hello_js
     #+BEGIN_SRC js :tangle say_hello.js
-    function say_hello(name) {
-       	if (typeof name !== "string") {
-	    throw "This is not a string. It is a " + name.constructor.name + ".";
-       	}
+      function say_hello(name) {
+          if (typeof name !== "string") {
+              throw "This is not a string. It is a " + name.constructor.name + ".";
+          }
 
-       	return "Hello, " + name;
-    }
+          return "Hello, " + name;
+      };
+
+      if (module) { module.exports = say_hello; }
     #+END_SRC
+
 *** Simplest possible test case
   #+BEGIN_SRC js :noweb yes :results output
     <<say_hello_js>>
     console.log( say_hello("World") );   
   #+END_SRC
 *** QUnit framework
+    [[./qunit-test-page.html][Open Test]]
 **** Test Page
-
-     [[./qunit-test-page.html][Open Test]]
 
      #+BEGIN_SRC html :tangle qunit-test-page.html
        <!DOCTYPE html>
@@ -365,9 +372,10 @@
        });
      #+END_SRC
 *** Jasmine framework
-**** Test Page
 
      [[./jasmine-test-page.html][Open Test]]
+
+**** Test Page
 
      #+BEGIN_SRC html :tangle jasmine-test-page.html
        <!DOCTYPE html>
@@ -413,45 +421,78 @@
 
        });
      #+END_SRC
-*** Cucumber step definitions
-  #+BEGIN_SRC js
-    require("./say_hello");
+*** Cucumber with JavaScript
+**** Install
+     #+BEGIN_SRC sh
+       npm install -g cucumber
+     #+END_SRC
+**** Feature Definition 
 
-    var myStepDefinitionsWrapper = function () {
-       	var name;
+     See Ruby Example
 
-       	this.Given(/^your name is "([^"]*)"$/, function (arg1, callback) {
-	    name = arg1;
-       	});
+**** Step Definitions
 
-       	this.When(/^I say hello$/, function (callback) {
-	    say_hello("name");
-       	});
+    #+BEGIN_SRC js :tangle features/step_definitions/say_hello_steps.js
+      say_hello = require('../../say_hello.js');
 
-       	this.Then(/^the result is "([^"]*)"$/, function (arg1, callback) {
-	    
-       	});
+      var myStepDefinitionsWrapper = function () {
+          var name, result, error = false;
 
-       	this.Given(/^your name is (\d+)$/, function (arg1, callback) {
-	    // Write code here that turns the phrase above into concrete actions
-	    callback.pending();
-       	});
+          this.Given(/^your name is (\d+)$/, function (arg1, callback) {
+              name = +arg1;
+              callback();
+          });
 
-       	this.Then(/^the result is ArgumentException$/, function (callback) {
-	    // Write code here that turns the phrase above into concrete actions
-	    callback.pending();
-       	});
+          this.Given(/^your name is "([^"]*)"$/, function (arg1, callback) {
+              name = arg1;
+              callback();
+          });
 
-       	this.Given(/^your name is User Hash\.$/, function (callback) {
-	    // Write code here that turns the phrase above into concrete actions
-	    callback.pending();
-       	});
+          this.Given(/^your name is User Hash$/, function (callback) {
+              name = { name: "MyNameHere" };
+              callback();
+          });
 
-    }
 
-    module.exports = myStepDefinitionsWrapper;
+          this.When(/^I say ([^"]*)/, function (arg1, callback) {
+              try {
+                  result = say_hello(name);
+                  callback();
+              } catch(e) {
+                  error = true;
+                  result = e;
+                  callback()
+              }
+          });
 
-  #+END_SRC
+          this.Then(/^the result is "([^"]*)"$/, function (arg1, callback) {
+              if (arg1 !== result) {
+                  callback.fail("Expected: " + arg1 + ". Actual: " + result);
+              } else {
+                  callback();
+              }
+          });
+
+          this.Then(/^the result is ArgumentException$/, function (callback) {
+              // Write code here that turns the phrase above into concrete actions
+              if (error) {
+                  callback();
+              } else {
+                  callback.fail("Expected error");
+              }
+          });
+
+
+      }
+
+      module.exports = myStepDefinitionsWrapper;
+
+    #+END_SRC
+**** Run on command line
+
+     #+BEGIN_SRC sh
+       cucumber-js -f pretty
+     #+END_SRC
 
 ** Clojure
 *** Say Hello in Clojure
