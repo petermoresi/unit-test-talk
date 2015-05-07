@@ -622,7 +622,7 @@
       }
     #+END_SRC
 
-*** Cucumber with C#
+*** Cucumber with C#						   :noexport:
 ** Java
 *** Say Hello in Java
     #+BEGIN_SRC java :tangle Friendly.java
