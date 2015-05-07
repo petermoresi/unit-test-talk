@@ -311,6 +311,9 @@
   #+END_SRC
 *** QUnit framework
 **** Test Page
+
+     [[./qunit-test-page.html][Open Test]]
+
      #+BEGIN_SRC html :tangle qunit-test-page.html
        <!DOCTYPE html>
        <html>
@@ -363,6 +366,9 @@
      #+END_SRC
 *** Jasmine framework
 **** Test Page
+
+     [[./jasmine-test-page.html][Open Test]]
+
      #+BEGIN_SRC html :tangle jasmine-test-page.html
        <!DOCTYPE html>
        <html>
@@ -385,6 +391,7 @@
          </body>
        </html>
      #+END_SRC
+
 **** Test Script
      #+BEGIN_SRC js :tangle say_hello_jasmine_tests.js
        describe("say_hello", function() {
