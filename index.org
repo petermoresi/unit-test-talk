@@ -11,6 +11,9 @@
   body {
       font-family: sans-serif;
   }
+  h1 {
+      font-size: 48px;
+  }
   h2 {
       font-size: 45px;
   }
@@ -523,6 +526,21 @@
      (run-tests)
    #+END_SRC
 
+*** WAIT Cucumber with Clojure					   :noexport:
+**** Step Definitions
+     #+BEGIN_SRC clojure
+       (use 'clojure-cukes.core)
+       (use 'clojure.test)
+
+       (Given #"^I have (\d+) big \"([^\"]*)\" in my belly$" [n, thing]
+              (reset! belly (repeat (read-string n) thing)))
+
+       (When #"I eat (\d+) \"([^\"]*)\"" [n, thing]
+             (eat (repeat (read-string n) thing)))
+
+       (Then #"^I am \"([^\"]*)\"$" [mood-name]
+             (assert (= (name (mood)) mood-name)))     
+     #+END_SRC
 ** CSharp
 *** Say Hello in CSharp
     #+NAME: say_hello_csharp
@@ -604,6 +622,7 @@
       }
     #+END_SRC
 
+*** Cucumber with C#
 ** Java
 *** Say Hello in Java
     #+BEGIN_SRC java :tangle Friendly.java
