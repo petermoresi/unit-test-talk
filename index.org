@@ -90,6 +90,22 @@
   4. They are widely available on every major platform.
   5. They guide you into common test patterns (setup, execute, teardown).
   6. They help with advanced cases like testing database changes.
+
+* What is a "Unit"?
+
+  - A logical grouping of computer code
+
+    - A single function
+
+    - A group of related functions and data (Object)
+      
+  - BUT *My code* depends on *other code*...that I didn't write
+
+    - Am I testing that code too?
+
+      - Yes, unless you stub the call
+
+      - Yes, unless you mock the object
   
 * Get started with unit testing
   
@@ -225,8 +241,10 @@
 
 *** Cucumber with Ruby
     
-    Purpose is to describe software behavior with a programming language neutral DSL.
-    
+    - Describe software behavior with a programming language neutral DSL.
+
+    [[http://loudcoding.com/wp-content/uploads/2012/06/cuke_logo.png]]
+
 **** Install
      #+BEGIN_SRC sh
        gem install cucumber
@@ -376,7 +394,7 @@
      #+END_SRC
 *** Jasmine framework
 
-     [[./jasmine-test-page.html][Open Test]]
+     [[./jasmine-test-page.html][Open Example]]     
 
 **** Test Page
 

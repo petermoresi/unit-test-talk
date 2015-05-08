@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Unit Test Talk</title>
-<!-- 2015-05-07 Thu 16:36 -->
+<!-- 2015-05-08 Fri 12:46 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Peter Moresi" />
@@ -218,47 +218,48 @@ for the JavaScript code in this tag.
 <li><a href="#sec-2">Developers role in testing</a></li>
 <li><a href="#sec-3">How to test like a Developer</a></li>
 <li><a href="#sec-4">Why use a Test Framework</a></li>
-<li><a href="#sec-5">Get started with unit testing</a>
+<li><a href="#sec-5">What is a "Unit"?</a></li>
+<li><a href="#sec-6">Get started with unit testing</a>
 <ul>
-<li><a href="#sec-5-1">Ruby</a>
+<li><a href="#sec-6-1">Ruby</a>
 <ul>
-<li><a href="#sec-5-1-1">Say Hello in Ruby</a></li>
-<li><a href="#sec-5-1-2">Simplest possible test case</a></li>
-<li><a href="#sec-5-1-3">Remember to test exception cases too</a></li>
-<li><a href="#sec-5-1-4">Measure code coverage</a></li>
-<li><a href="#sec-5-1-5">Minitest framework</a></li>
-<li><a href="#sec-5-1-6">RSpec framework</a></li>
-<li><a href="#sec-5-1-7">Cucumber with Ruby</a></li>
+<li><a href="#sec-6-1-1">Say Hello in Ruby</a></li>
+<li><a href="#sec-6-1-2">Simplest possible test case</a></li>
+<li><a href="#sec-6-1-3">Remember to test exception cases too</a></li>
+<li><a href="#sec-6-1-4">Measure code coverage</a></li>
+<li><a href="#sec-6-1-5">Minitest framework</a></li>
+<li><a href="#sec-6-1-6">RSpec framework</a></li>
+<li><a href="#sec-6-1-7">Cucumber with Ruby</a></li>
 </ul>
 </li>
-<li><a href="#sec-5-2">JavaScript</a>
+<li><a href="#sec-6-2">JavaScript</a>
 <ul>
-<li><a href="#sec-5-2-1">Say Hello in JavaScript</a></li>
-<li><a href="#sec-5-2-2">Simplest possible test case</a></li>
-<li><a href="#sec-5-2-3">QUnit framework</a></li>
-<li><a href="#sec-5-2-4">Jasmine framework</a></li>
-<li><a href="#sec-5-2-5">Cucumber with JavaScript</a></li>
+<li><a href="#sec-6-2-1">Say Hello in JavaScript</a></li>
+<li><a href="#sec-6-2-2">Simplest possible test case</a></li>
+<li><a href="#sec-6-2-3">QUnit framework</a></li>
+<li><a href="#sec-6-2-4">Jasmine framework</a></li>
+<li><a href="#sec-6-2-5">Cucumber with JavaScript</a></li>
 </ul>
 </li>
-<li><a href="#sec-5-3">Clojure</a>
+<li><a href="#sec-6-3">Clojure</a>
 <ul>
-<li><a href="#sec-5-3-1">Say Hello in Clojure</a></li>
-<li><a href="#sec-5-3-2">Simplest possible test case</a></li>
-<li><a href="#sec-5-3-3">clojure.test framework</a></li>
+<li><a href="#sec-6-3-1">Say Hello in Clojure</a></li>
+<li><a href="#sec-6-3-2">Simplest possible test case</a></li>
+<li><a href="#sec-6-3-3">clojure.test framework</a></li>
 </ul>
 </li>
-<li><a href="#sec-5-4">CSharp</a>
+<li><a href="#sec-6-4">CSharp</a>
 <ul>
-<li><a href="#sec-5-4-1">Say Hello in CSharp</a></li>
-<li><a href="#sec-5-4-2">Simplest possible test</a></li>
-<li><a href="#sec-5-4-3">Test with NUnit Framework</a></li>
+<li><a href="#sec-6-4-1">Say Hello in CSharp</a></li>
+<li><a href="#sec-6-4-2">Simplest possible test</a></li>
+<li><a href="#sec-6-4-3">Test with NUnit Framework</a></li>
 </ul>
 </li>
-<li><a href="#sec-5-5">Java</a>
+<li><a href="#sec-6-5">Java</a>
 <ul>
-<li><a href="#sec-5-5-1">Say Hello in Java</a></li>
-<li><a href="#sec-5-5-2">Simplest possible test</a></li>
-<li><a href="#sec-5-5-3">Test with JUnit</a></li>
+<li><a href="#sec-6-5-1">Say Hello in Java</a></li>
+<li><a href="#sec-6-5-2">Simplest possible test</a></li>
+<li><a href="#sec-6-5-3">Test with JUnit</a></li>
 </ul>
 </li>
 </ul>
@@ -406,8 +407,42 @@ li div {
 </div>
 
 <div id="outline-container-sec-5" class="outline-2">
-<h2 id="sec-5">Get started with unit testing</h2>
+<h2 id="sec-5">What is a "Unit"?</h2>
 <div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li>A logical grouping of computer code
+
+<ul class="org-ul">
+<li>A single function
+</li>
+
+<li>A group of related functions and data (Object)
+</li>
+</ul>
+</li>
+
+<li>BUT <b>My code</b> depends on <b>other code</b>&#x2026;that I didn't write
+
+<ul class="org-ul">
+<li>Am I testing that code too?
+
+<ul class="org-ul">
+<li>Yes, unless you stub the call
+</li>
+
+<li>Yes, unless you mock the object
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6">Get started with unit testing</h2>
+<div class="outline-text-2" id="text-6">
 <ul class="org-ul">
 <li>Testing a <b>single function</b> is the first step.
 </li>
@@ -417,12 +452,12 @@ li div {
 </ul>
 </div>
 
-<div id="outline-container-sec-5-1" class="outline-3">
-<h3 id="sec-5-1">Ruby</h3>
-<div class="outline-text-3" id="text-5-1">
-</div><div id="outline-container-sec-5-1-1" class="outline-4">
-<h4 id="sec-5-1-1">Say Hello in Ruby</h4>
-<div class="outline-text-4" id="text-5-1-1">
+<div id="outline-container-sec-6-1" class="outline-3">
+<h3 id="sec-6-1">Ruby</h3>
+<div class="outline-text-3" id="text-6-1">
+</div><div id="outline-container-sec-6-1-1" class="outline-4">
+<h4 id="sec-6-1-1">Say Hello in Ruby</h4>
+<div class="outline-text-4" id="text-6-1-1">
 <div class="org-src-container">
 
 <pre class="src src-ruby" id="say_hello"><span style="color: #0000FF;">def</span> <span style="color: #006699;">say_hello</span>(name)
@@ -436,9 +471,9 @@ li div {
 </div>
 </div>
 </div>
-<div id="outline-container-sec-5-1-2" class="outline-4">
-<h4 id="sec-5-1-2">Simplest possible test case</h4>
-<div class="outline-text-4" id="text-5-1-2">
+<div id="outline-container-sec-6-1-2" class="outline-4">
+<h4 id="sec-6-1-2">Simplest possible test case</h4>
+<div class="outline-text-4" id="text-6-1-2">
 <p>
 This test ensures correct syntax and basic behavior.
 </p>
@@ -452,9 +487,9 @@ say_hello <span style="color: #008000;">"World"</span>
 </div>
 </div>
 
-<div id="outline-container-sec-5-1-3" class="outline-4">
-<h4 id="sec-5-1-3">Remember to test exception cases too</h4>
-<div class="outline-text-4" id="text-5-1-3">
+<div id="outline-container-sec-6-1-3" class="outline-4">
+<h4 id="sec-6-1-3">Remember to test exception cases too</h4>
+<div class="outline-text-4" id="text-6-1-3">
 <div class="org-src-container">
 
 <pre class="src src-ruby"><span style="color: #006FE0;">require</span> <span style="color: #008000;">'./say_hello.rb'</span>
@@ -470,9 +505,9 @@ say_hello <span style="color: #008000;">"World"</span>
 </div>
 </div>
 
-<div id="outline-container-sec-5-1-4" class="outline-4">
-<h4 id="sec-5-1-4">Measure code coverage</h4>
-<div class="outline-text-4" id="text-5-1-4">
+<div id="outline-container-sec-6-1-4" class="outline-4">
+<h4 id="sec-6-1-4">Measure code coverage</h4>
+<div class="outline-text-4" id="text-6-1-4">
 <p>
 This test covers 100% of the code paths. This means that every line of code
 is executed by running the test code. There are tools to automate the collection
@@ -500,9 +535,9 @@ say_hello(<span style="color: #008000;">"World"</span>)
 </div>
 </div>
 
-<div id="outline-container-sec-5-1-5" class="outline-4">
-<h4 id="sec-5-1-5">Minitest framework</h4>
-<div class="outline-text-4" id="text-5-1-5">
+<div id="outline-container-sec-6-1-5" class="outline-4">
+<h4 id="sec-6-1-5">Minitest framework</h4>
+<div class="outline-text-4" id="text-6-1-5">
 <p>
 Author test for the  minitest framework.
 </p>
@@ -542,9 +577,9 @@ Author test for the  minitest framework.
 </div>
 </div>
 
-<div id="outline-container-sec-5-1-6" class="outline-4">
-<h4 id="sec-5-1-6">RSpec framework</h4>
-<div class="outline-text-4" id="text-5-1-6">
+<div id="outline-container-sec-6-1-6" class="outline-4">
+<h4 id="sec-6-1-6">RSpec framework</h4>
+<div class="outline-text-4" id="text-6-1-6">
 <p>
 Author tests uses a BDD style with the RSpec framework.
 </p>
@@ -578,15 +613,22 @@ describe <span style="color: #008000;">"say_hello"</span> <span style="color: #0
 </div>
 </div>
 
-<div id="outline-container-sec-5-1-7" class="outline-4">
-<h4 id="sec-5-1-7">Cucumber with Ruby</h4>
-<div class="outline-text-4" id="text-5-1-7">
-<p>
-Purpose is to describe software behavior with a programming language neutral DSL.
+<div id="outline-container-sec-6-1-7" class="outline-4">
+<h4 id="sec-6-1-7">Cucumber with Ruby</h4>
+<div class="outline-text-4" id="text-6-1-7">
+<ul class="org-ul">
+<li>Describe software behavior with a programming language neutral DSL.
+</li>
+</ul>
+
+
+<div class="figure">
+<p><img src="http://loudcoding.com/wp-content/uploads/2012/06/cuke_logo.png" alt="cuke_logo.png" />
 </p>
 </div>
+</div>
 
-<ul class="org-ul"><li><a id="sec-5-1-7-1" name="sec-5-1-7-1"></a>Install<br  /><div class="outline-text-5" id="text-5-1-7-1">
+<ul class="org-ul"><li><a id="sec-6-1-7-1" name="sec-6-1-7-1"></a>Install<br  /><div class="outline-text-5" id="text-6-1-7-1">
 <div class="org-src-container">
 
 <pre class="src src-sh">gem install cucumber
@@ -594,7 +636,7 @@ Purpose is to describe software behavior with a programming language neutral DSL
 </div>
 </div>
 </li>
-<li><a id="sec-5-1-7-2" name="sec-5-1-7-2"></a>Feature Definition<br  /><div class="outline-text-5" id="text-5-1-7-2">
+<li><a id="sec-6-1-7-2" name="sec-6-1-7-2"></a>Feature Definition<br  /><div class="outline-text-5" id="text-6-1-7-2">
 <div class="org-src-container">
 
 <pre class="src src-feature"><span style="color: #0000FF;">Feature:</span><span style="color: #6434A3;"> Say Hello</span>
@@ -621,7 +663,7 @@ Purpose is to describe software behavior with a programming language neutral DSL
 </div>
 </li>
 
-<li><a id="sec-5-1-7-3" name="sec-5-1-7-3"></a>Step Definitions<br  /><div class="outline-text-5" id="text-5-1-7-3">
+<li><a id="sec-6-1-7-3" name="sec-6-1-7-3"></a>Step Definitions<br  /><div class="outline-text-5" id="text-6-1-7-3">
 <p>
 Purpose is to make sentences to code operations.
 </p>
@@ -663,7 +705,7 @@ Then(<span style="color: #008000;">/^the result is ArgumentException$/</span>) <
 </div>
 </li>
 
-<li><a id="sec-5-1-7-4" name="sec-5-1-7-4"></a>Run tests on terminal<br  /><div class="outline-text-5" id="text-5-1-7-4">
+<li><a id="sec-6-1-7-4" name="sec-6-1-7-4"></a>Run tests on terminal<br  /><div class="outline-text-5" id="text-6-1-7-4">
 <div class="org-src-container">
 
 <pre class="src src-sh">cucumber -f pretty
@@ -674,12 +716,12 @@ Then(<span style="color: #008000;">/^the result is ArgumentException$/</span>) <
 </div>
 </div>
 
-<div id="outline-container-sec-5-2" class="outline-3">
-<h3 id="sec-5-2">JavaScript</h3>
-<div class="outline-text-3" id="text-5-2">
-</div><div id="outline-container-sec-5-2-1" class="outline-4">
-<h4 id="sec-5-2-1">Say Hello in JavaScript</h4>
-<div class="outline-text-4" id="text-5-2-1">
+<div id="outline-container-sec-6-2" class="outline-3">
+<h3 id="sec-6-2">JavaScript</h3>
+<div class="outline-text-3" id="text-6-2">
+</div><div id="outline-container-sec-6-2-1" class="outline-4">
+<h4 id="sec-6-2-1">Say Hello in JavaScript</h4>
+<div class="outline-text-4" id="text-6-2-1">
 <div class="org-src-container">
 
 <pre class="src src-js" id="say_hello_js"><span style="color: #0000FF;">function</span> <span style="color: #006699;">say_hello</span>(<span style="color: #BA36A5;">name</span>) {
@@ -696,9 +738,9 @@ Then(<span style="color: #008000;">/^the result is ArgumentException$/</span>) <
 </div>
 </div>
 
-<div id="outline-container-sec-5-2-2" class="outline-4">
-<h4 id="sec-5-2-2">Simplest possible test case</h4>
-<div class="outline-text-4" id="text-5-2-2">
+<div id="outline-container-sec-6-2-2" class="outline-4">
+<h4 id="sec-6-2-2">Simplest possible test case</h4>
+<div class="outline-text-4" id="text-6-2-2">
 <div class="org-src-container">
 
 <pre class="src src-js"><span style="color: #0000FF;">function</span> <span style="color: #006699;">say_hello</span>(<span style="color: #BA36A5;">name</span>) {
@@ -715,14 +757,14 @@ console.log( say_hello(<span style="color: #008000;">"World"</span>) );
 </div>
 </div>
 </div>
-<div id="outline-container-sec-5-2-3" class="outline-4">
-<h4 id="sec-5-2-3">QUnit framework</h4>
-<div class="outline-text-4" id="text-5-2-3">
+<div id="outline-container-sec-6-2-3" class="outline-4">
+<h4 id="sec-6-2-3">QUnit framework</h4>
+<div class="outline-text-4" id="text-6-2-3">
 <p>
 <a href="./qunit-test-page.html">Open Test</a>
 </p>
 </div>
-<ul class="org-ul"><li><a id="sec-5-2-3-1" name="sec-5-2-3-1"></a>Test Page<br  /><div class="outline-text-5" id="text-5-2-3-1">
+<ul class="org-ul"><li><a id="sec-6-2-3-1" name="sec-6-2-3-1"></a>Test Page<br  /><div class="outline-text-5" id="text-6-2-3-1">
 <div class="org-src-container">
 
 <pre class="src src-html">&lt;<span style="color: #0000FF;">!DOCTYPE</span> html&gt;
@@ -744,7 +786,7 @@ console.log( say_hello(<span style="color: #008000;">"World"</span>) );
 </div>
 </div>
 </li>
-<li><a id="sec-5-2-3-2" name="sec-5-2-3-2"></a>Test Script<br  /><div class="outline-text-5" id="text-5-2-3-2">
+<li><a id="sec-6-2-3-2" name="sec-6-2-3-2"></a>Test Script<br  /><div class="outline-text-5" id="text-6-2-3-2">
 <div class="org-src-container">
 
 <pre class="src src-js">QUnit.test( <span style="color: #008000;">"hello world"</span>, <span style="color: #0000FF;">function</span>( <span style="color: #BA36A5;">assert</span> ) {
@@ -782,15 +824,15 @@ QUnit.test( <span style="color: #008000;">"date is guarded"</span>, <span style=
 </div>
 </li></ul>
 </div>
-<div id="outline-container-sec-5-2-4" class="outline-4">
-<h4 id="sec-5-2-4">Jasmine framework</h4>
-<div class="outline-text-4" id="text-5-2-4">
+<div id="outline-container-sec-6-2-4" class="outline-4">
+<h4 id="sec-6-2-4">Jasmine framework</h4>
+<div class="outline-text-4" id="text-6-2-4">
 <p>
-<a href="./jasmine-test-page.html">Open Test</a>
+<a href="./jasmine-test-page.html">Open Example</a>     
 </p>
 </div>
 
-<ul class="org-ul"><li><a id="sec-5-2-4-1" name="sec-5-2-4-1"></a>Test Page<br  /><div class="outline-text-5" id="text-5-2-4-1">
+<ul class="org-ul"><li><a id="sec-6-2-4-1" name="sec-6-2-4-1"></a>Test Page<br  /><div class="outline-text-5" id="text-6-2-4-1">
 <div class="org-src-container">
 
 <pre class="src src-html">&lt;<span style="color: #0000FF;">!DOCTYPE</span> html&gt;
@@ -818,7 +860,7 @@ QUnit.test( <span style="color: #008000;">"date is guarded"</span>, <span style=
 </div>
 </li>
 
-<li><a id="sec-5-2-4-2" name="sec-5-2-4-2"></a>Test Script<br  /><div class="outline-text-5" id="text-5-2-4-2">
+<li><a id="sec-6-2-4-2" name="sec-6-2-4-2"></a>Test Script<br  /><div class="outline-text-5" id="text-6-2-4-2">
 <div class="org-src-container">
 
 <pre class="src src-js">describe(<span style="color: #008000;">"say_hello"</span>, <span style="color: #0000FF;">function</span>() {
@@ -844,10 +886,10 @@ QUnit.test( <span style="color: #008000;">"date is guarded"</span>, <span style=
 </div>
 </li></ul>
 </div>
-<div id="outline-container-sec-5-2-5" class="outline-4">
-<h4 id="sec-5-2-5">Cucumber with JavaScript</h4>
-<div class="outline-text-4" id="text-5-2-5">
-</div><ul class="org-ul"><li><a id="sec-5-2-5-1" name="sec-5-2-5-1"></a>Install<br  /><div class="outline-text-5" id="text-5-2-5-1">
+<div id="outline-container-sec-6-2-5" class="outline-4">
+<h4 id="sec-6-2-5">Cucumber with JavaScript</h4>
+<div class="outline-text-4" id="text-6-2-5">
+</div><ul class="org-ul"><li><a id="sec-6-2-5-1" name="sec-6-2-5-1"></a>Install<br  /><div class="outline-text-5" id="text-6-2-5-1">
 <div class="org-src-container">
 
 <pre class="src src-sh">npm install -g cucumber
@@ -855,14 +897,14 @@ QUnit.test( <span style="color: #008000;">"date is guarded"</span>, <span style=
 </div>
 </div>
 </li>
-<li><a id="sec-5-2-5-2" name="sec-5-2-5-2"></a>Feature Definition<br  /><div class="outline-text-5" id="text-5-2-5-2">
+<li><a id="sec-6-2-5-2" name="sec-6-2-5-2"></a>Feature Definition<br  /><div class="outline-text-5" id="text-6-2-5-2">
 <p>
 See Ruby Example
 </p>
 </div>
 </li>
 
-<li><a id="sec-5-2-5-3" name="sec-5-2-5-3"></a>Step Definitions<br  /><div class="outline-text-5" id="text-5-2-5-3">
+<li><a id="sec-6-2-5-3" name="sec-6-2-5-3"></a>Step Definitions<br  /><div class="outline-text-5" id="text-6-2-5-3">
 <div class="org-src-container">
 
 <pre class="src src-js">say_hello = require(<span style="color: #008000;">'../../say_hello.js'</span>);
@@ -922,7 +964,7 @@ module.exports = myStepDefinitionsWrapper;
 </div>
 </div>
 </li>
-<li><a id="sec-5-2-5-4" name="sec-5-2-5-4"></a>Run on command line<br  /><div class="outline-text-5" id="text-5-2-5-4">
+<li><a id="sec-6-2-5-4" name="sec-6-2-5-4"></a>Run on command line<br  /><div class="outline-text-5" id="text-6-2-5-4">
 <div class="org-src-container">
 
 <pre class="src src-sh">cucumber-js -f pretty
@@ -933,12 +975,12 @@ module.exports = myStepDefinitionsWrapper;
 </div>
 </div>
 
-<div id="outline-container-sec-5-3" class="outline-3">
-<h3 id="sec-5-3">Clojure</h3>
-<div class="outline-text-3" id="text-5-3">
-</div><div id="outline-container-sec-5-3-1" class="outline-4">
-<h4 id="sec-5-3-1">Say Hello in Clojure</h4>
-<div class="outline-text-4" id="text-5-3-1">
+<div id="outline-container-sec-6-3" class="outline-3">
+<h3 id="sec-6-3">Clojure</h3>
+<div class="outline-text-3" id="text-6-3">
+</div><div id="outline-container-sec-6-3-1" class="outline-4">
+<h4 id="sec-6-3-1">Say Hello in Clojure</h4>
+<div class="outline-text-4" id="text-6-3-1">
 <div class="org-src-container">
 
 <pre class="src src-clojure" id="say_hello_clj">(<span style="color: #0000FF;">defn</span> <span style="color: #006699;">say_hello</span> [name] 
@@ -950,9 +992,9 @@ module.exports = myStepDefinitionsWrapper;
 </div>
 </div>
 </div>
-<div id="outline-container-sec-5-3-2" class="outline-4">
-<h4 id="sec-5-3-2">Simplest possible test case</h4>
-<div class="outline-text-4" id="text-5-3-2">
+<div id="outline-container-sec-6-3-2" class="outline-4">
+<h4 id="sec-6-3-2">Simplest possible test case</h4>
+<div class="outline-text-4" id="text-6-3-2">
 <div class="org-src-container">
 
 <pre class="src src-clojure">(load-file <span style="color: #008000;">"say_hello.clj"</span>)
@@ -961,9 +1003,9 @@ module.exports = myStepDefinitionsWrapper;
 </div>
 </div>
 </div>
-<div id="outline-container-sec-5-3-3" class="outline-4">
-<h4 id="sec-5-3-3">clojure.test framework</h4>
-<div class="outline-text-4" id="text-5-3-3">
+<div id="outline-container-sec-6-3-3" class="outline-4">
+<h4 id="sec-6-3-3">clojure.test framework</h4>
+<div class="outline-text-4" id="text-6-3-3">
 <div class="org-src-container">
 
 <pre class="src src-clojure">(use '<span style="color: #6434A3;">clojure.test</span>)
@@ -980,12 +1022,12 @@ module.exports = myStepDefinitionsWrapper;
 </div>
 </div>
 </div>
-<div id="outline-container-sec-5-4" class="outline-3">
-<h3 id="sec-5-4">CSharp</h3>
-<div class="outline-text-3" id="text-5-4">
-</div><div id="outline-container-sec-5-4-1" class="outline-4">
-<h4 id="sec-5-4-1">Say Hello in CSharp</h4>
-<div class="outline-text-4" id="text-5-4-1">
+<div id="outline-container-sec-6-4" class="outline-3">
+<h3 id="sec-6-4">CSharp</h3>
+<div class="outline-text-3" id="text-6-4">
+</div><div id="outline-container-sec-6-4-1" class="outline-4">
+<h4 id="sec-6-4-1">Say Hello in CSharp</h4>
+<div class="outline-text-4" id="text-6-4-1">
 <div class="org-src-container">
 
 <pre class="src src-csharp" id="say_hello_csharp"><span style="color: #0000FF;">using</span> <span style="color: #D0372D;">System</span>;
@@ -1008,9 +1050,9 @@ module.exports = myStepDefinitionsWrapper;
 </div>
 </div>
 </div>
-<div id="outline-container-sec-5-4-2" class="outline-4">
-<h4 id="sec-5-4-2">Simplest possible test</h4>
-<div class="outline-text-4" id="text-5-4-2">
+<div id="outline-container-sec-6-4-2" class="outline-4">
+<h4 id="sec-6-4-2">Simplest possible test</h4>
+<div class="outline-text-4" id="text-6-4-2">
 <div class="org-src-container">
 
 <pre class="src src-csharp"><span style="color: #0000FF;">using</span> <span style="color: #D0372D;">System</span>;
@@ -1031,9 +1073,9 @@ module.exports = myStepDefinitionsWrapper;
 </div>
 </div>
 </div>
-<div id="outline-container-sec-5-4-3" class="outline-4">
-<h4 id="sec-5-4-3">Test with NUnit Framework</h4>
-<div class="outline-text-4" id="text-5-4-3">
+<div id="outline-container-sec-6-4-3" class="outline-4">
+<h4 id="sec-6-4-3">Test with NUnit Framework</h4>
+<div class="outline-text-4" id="text-6-4-3">
 <div class="org-src-container">
 
 <pre class="src src-csharp"><span style="color: #0000FF;">using</span> <span style="color: #D0372D;">NUnit.Framework</span>;
@@ -1078,12 +1120,12 @@ module.exports = myStepDefinitionsWrapper;
 </div>
 </div>
 </div>
-<div id="outline-container-sec-5-5" class="outline-3">
-<h3 id="sec-5-5">Java</h3>
-<div class="outline-text-3" id="text-5-5">
-</div><div id="outline-container-sec-5-5-1" class="outline-4">
-<h4 id="sec-5-5-1">Say Hello in Java</h4>
-<div class="outline-text-4" id="text-5-5-1">
+<div id="outline-container-sec-6-5" class="outline-3">
+<h3 id="sec-6-5">Java</h3>
+<div class="outline-text-3" id="text-6-5">
+</div><div id="outline-container-sec-6-5-1" class="outline-4">
+<h4 id="sec-6-5-1">Say Hello in Java</h4>
+<div class="outline-text-4" id="text-6-5-1">
 <div class="org-src-container">
 
 <pre class="src src-java"><span style="color: #0000FF;">class</span> <span style="color: #6434A3;">Friendly</span> {
@@ -1101,9 +1143,9 @@ module.exports = myStepDefinitionsWrapper;
 </div>
 </div>
 </div>
-<div id="outline-container-sec-5-5-2" class="outline-4">
-<h4 id="sec-5-5-2">Simplest possible test</h4>
-<div class="outline-text-4" id="text-5-5-2">
+<div id="outline-container-sec-6-5-2" class="outline-4">
+<h4 id="sec-6-5-2">Simplest possible test</h4>
+<div class="outline-text-4" id="text-6-5-2">
 <div class="org-src-container">
 
 <pre class="src src-java"><span style="color: #0000FF;">class</span> <span style="color: #6434A3;">FriendlyTest</span>
@@ -1119,9 +1161,9 @@ module.exports = myStepDefinitionsWrapper;
 </div>
 </div>
 </div>
-<div id="outline-container-sec-5-5-3" class="outline-4">
-<h4 id="sec-5-5-3">Test with JUnit</h4>
-<div class="outline-text-4" id="text-5-5-3">
+<div id="outline-container-sec-6-5-3" class="outline-4">
+<h4 id="sec-6-5-3">Test with JUnit</h4>
+<div class="outline-text-4" id="text-6-5-3">
 <div class="org-src-container">
 
 <pre class="src src-js"><span style="color: #0000FF;">import</span> org.junit.Test;
@@ -1155,7 +1197,7 @@ module.exports = myStepDefinitionsWrapper;
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Peter Moresi</p>
-<p class="date">Created: 2015-05-07 Thu 16:36</p>
+<p class="date">Created: 2015-05-08 Fri 12:46</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.4.50.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
